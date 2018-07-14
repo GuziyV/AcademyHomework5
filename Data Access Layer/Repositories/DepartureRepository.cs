@@ -1,5 +1,7 @@
-﻿using Data_Access_Layer.Interfaces;
+﻿using Data_Access_Layer.Contexts;
+using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,39 +12,40 @@ namespace Data_Access_Layer.Repositories
 {
     class DepartureRepository : IRepository<Departure>
     {
-        static private List<Departure> _departures;
+        private AirportContext _context;
 
-        public DepartureRepository()
+        public DepartureRepository(AirportContext context)
         {
-            if (_departures == null)
-            {
-                _departures = new List<Departure>();
-            }
+            _context = context;
         }
 
         public void Create(Departure item)
         {
-            _departures.Add(item);
+            _context.Departures.Add(item);
         }
 
         public void Delete(int id)
         {
-            _departures.Remove(_departures.First(d => d.Id == id));
+            _context.Departures.Remove(_context.Departures.Find(id));
         }
 
         public Departure Get(int id)
         {
-            return _departures.First(d => d.Id == id);
+            return _context.Departures.Include(d => d.Crew).ThenInclude(c => c.Pilot).Include(d =>d.Crew).ThenInclude(c => c.Stewardesses)
+                .Include(d => d.Flight).ThenInclude(f => f.Tickets)
+                .Include(d => d.Plane).ThenInclude(p => p.PlaneType).FirstOrDefault(s => s.Id == id);
         }
 
         public IEnumerable<Departure> GetAll()
         {
-            return _departures;
+            return _context.Departures.Include(d => d.Crew).ThenInclude(c => c.Pilot).Include(d => d.Crew).ThenInclude(c => c.Stewardesses)
+                .Include(d => d.Flight).ThenInclude(f => f.Tickets)
+                .Include(d => d.Plane).ThenInclude(p => p.PlaneType);
         }
 
         public void Update(int id, Departure item)
         {
-            _departures[_departures.FindIndex(i => i.Id == id)] = item;
+            _context.Entry(item).State = EntityState.Modified;
         }
     }
 }

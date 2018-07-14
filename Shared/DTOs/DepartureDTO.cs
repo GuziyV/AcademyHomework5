@@ -1,20 +1,20 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Shared.DTOs
 {
     public class DepartureDTO
     {
-        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
-        public int RaceNumber { get; set; }
+        public FlightDTO Flight { get; set; }
 
-        [Required]
         public DateTime TimeOfDeparture { get; set; }
 
-        [Required]
         public CrewDTO Crew { get; set; }
+
+        public PlaneDTO Plane { get; set; }
     }
 }

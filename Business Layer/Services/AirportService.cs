@@ -1,4 +1,5 @@
 ﻿using Business_Layer.Interfaces;
+using Data_Access_Layer;
 using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Models;
 using System.Collections.Generic;
@@ -49,25 +50,9 @@ namespace Business_Layer.Services
             (f.DepartureFrom == departureFrom && f.Destination == destination));
         }
 
-        public IEnumerable<Ticket> GetTicketsByRoute(string departureFrom, string destination)
+        public void SaveChanges()
         {
-            return GetAll<Ticket>().Where(f =>
-            (GetById<Flight>(f.RaceNumber).DepartureFrom == departureFrom && GetById<Flight>(f.RaceNumber).Destination == destination));
-        }
-
-        public IEnumerable<Plane> GetPlanesByModel(string model)
-        {
-            return GetAll<Plane>().Where(p => p.PlaneType.Model == model);
-        }
-
-        public IEnumerable<Plane> GetPlanesByNumberOfSeatsMoreThen(int numberOfSeats)
-        {
-            return GetAll<Plane>().Where(p => p.PlaneType.NumberOfSeats > numberOfSeats);
-        }
-
-        public IEnumerable<Plane> GetPlanesLoadCapacityMoreThen(int loadCapacity)
-        {
-            return GetAll<Plane>().Where(p => p.PlaneType.LoadCapacity > loadCapacity);
+            _unitOfWork.SaveChanges();
         }
     }
         

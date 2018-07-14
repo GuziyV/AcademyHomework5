@@ -1,16 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Shared.DTOs
 {
     public class TicketDTO
     {
-        [Required]
         public int Id { get; set; }
 
-        [Required]
         public double Price { get; set; }
 
-        [Required]
-        public int RaceNumber { get; set; }
+        public int FlightNumber { get; set; }
     }
 }
