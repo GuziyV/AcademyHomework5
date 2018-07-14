@@ -7,42 +7,41 @@ using System.Text;
 
 namespace Data_Access_Layer.DbInitializer
 {
-    static class AirportDbInitializer
+    static public class AirportDbInitializer
     {
         static public void Initialize(AirportContext context)
         {
             context.Database.EnsureCreated(); //create db if not exist
-
+            /*
             if(context.Flights.Any())
             { 
                 return; //already seeded
             }
-
+            */
             List<Pilot> pilots = new List<Pilot>()
             {
                 new Pilot(){Name = "PName1", Surname = "PSurname1", Experience = 3},
                 new Pilot(){Name = "PName2", Surname = "PSurname2", Experience = 4},
-                new Pilot(){Name = "PName3", Surname = "PSurname3", Experience = 9}
+                new Pilot(){Name = "PName3", Surname = "PSurname3", Experience = 9},
             };
 
             List<Stewardess> stewardesses = new List<Stewardess>()
             {
-                new Stewardess(){Name = "SName1", Surname = "SSurname1"},
-                new Stewardess(){Name = "SName2", Surname = "SSurname2"},
-                new Stewardess(){Name = "SName3", Surname = "SSurname3"},
-                new Stewardess(){Name = "SName4", Surname = "SSurname4"},
-                new Stewardess(){Name = "SName5", Surname = "SSurname5"}
+                new Stewardess(){Name = "SName1", Surname = "SSurname1", DateOfBirth = new DateTime(1992, 10, 11)},
+                new Stewardess(){Name = "SName2", Surname = "SSurname2", DateOfBirth = new DateTime(1991, 10, 11)},
+                new Stewardess(){Name = "SName3", Surname = "SSurname3", DateOfBirth = new DateTime(1993, 10, 11)},
+                new Stewardess(){Name = "SName4", Surname = "SSurname4", DateOfBirth = new DateTime(1994, 10, 11)},
+                new Stewardess(){Name = "SName5", Surname = "SSurname5", DateOfBirth = new DateTime(1993, 11, 15)}
             };
 
             context.Pilots.AddRange(pilots);
-            context.Stewardesses.AddRange(stewardesses);
 
             List<Crew> crews = new List<Crew>()
             {
                 new Crew()
                 {
                     Pilot = pilots[1],
-                    Stewardesses = new List<Stewardess>()
+                    Stewardesses = new List<Stewardess>
                     {
                         stewardesses[1],
                         stewardesses[3]
@@ -51,7 +50,7 @@ namespace Data_Access_Layer.DbInitializer
                 new Crew()
                 {
                     Pilot = pilots[0],
-                    Stewardesses = new List<Stewardess>()
+                    Stewardesses = new List<Stewardess>
                     {
                         stewardesses[0],
                         stewardesses[2]
@@ -60,12 +59,20 @@ namespace Data_Access_Layer.DbInitializer
                 new Crew()
                 {
                     Pilot = pilots[2],
-                    Stewardesses = new List<Stewardess>()
+                    Stewardesses = new List<Stewardess>
                     {
                         stewardesses[4],
                     }
                 }
             };
+
+            stewardesses[0].Crew = crews[1];
+            stewardesses[1].Crew = crews[0];
+            stewardesses[2].Crew = crews[1];
+            stewardesses[3].Crew = crews[0];
+            stewardesses[4].Crew = crews[1];
+
+            context.Stewardesses.AddRange(stewardesses);
 
             crews.AddRange(crews);
 
@@ -119,11 +126,40 @@ namespace Data_Access_Layer.DbInitializer
 
             context.AddRange(planes);
 
+            List<Ticket> tickets = new List<Ticket>()
+            {
+                new Ticket()
+                {
+                    FlightNumber = 2,
+                    Price = 258
+                },
+                new Ticket()
+                {
+                    FlightNumber = 1,
+                    Price = 257
+                },
+                new Ticket()
+                {
+                    FlightNumber = 2,
+                    Price = 256
+                },
+                new Ticket()
+                {
+                    FlightNumber = 3,
+                    Price = 255
+                }
+            };
+
+            tickets.AddRange(tickets);
 
             List<Flight> flights = new List<Flight>()
             {
                 new Flight()
                 {
+                    Tickets = new List<Ticket>()
+                    {
+                        tickets[1]
+                    },
                     DepartureFrom = "Kyiv",
                     Destination = "Tokio",
                     ArrivalTime = new DateTime(2018, 02, 03),
@@ -132,6 +168,11 @@ namespace Data_Access_Layer.DbInitializer
 
                 new Flight()
                 {
+                    Tickets = new List<Ticket>()
+                    {
+                        tickets[0],
+                        tickets[2]
+                    },
                     DepartureFrom = "Dublin",
                     Destination = "Paris",
                     ArrivalTime = new DateTime(2017, 02, 03),
@@ -140,6 +181,10 @@ namespace Data_Access_Layer.DbInitializer
 
                 new Flight()
                 {
+                    Tickets = new List<Ticket>()
+                    {
+                        tickets[3]
+                    },
                     DepartureFrom = "Odesa",
                     Destination = "Ternopil",
                     ArrivalTime = new DateTime(2016, 02, 03),
@@ -174,32 +219,6 @@ namespace Data_Access_Layer.DbInitializer
                 }
             };
             context.Departures.AddRange(departures);
-
-            List<Ticket> tickets = new List<Ticket>()
-            {
-                new Ticket()
-                {
-                    Flight = flights[1],
-                    Price = 250
-                },
-                new Ticket()
-                {
-                    Flight = flights[0],
-                    Price = 250
-                },
-                new Ticket()
-                {
-                    Flight = flights[1],
-                    Price = 250
-                },
-                new Ticket()
-                {
-                    Flight = flights[2],
-                    Price = 250
-                }
-            };
-
-            tickets.AddRange(tickets);
 
             context.SaveChanges();
 

@@ -19,7 +19,7 @@ namespace Data_Access_Layer.Models
         public DateTime ReleaseDate { get; set; }
 
         [Required]
-        public TimeSpan LifeTime
+        public virtual TimeSpan LifeTime
         {
             get
             {

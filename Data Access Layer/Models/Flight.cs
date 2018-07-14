@@ -17,7 +17,7 @@ namespace Data_Access_Layer.Models
         public string DepartureFrom { get; set; }
 
         [Required]
-        public DateTime TimeOfDeparture { get; set; }
+        public virtual DateTime TimeOfDeparture { get; set; }
 
         [Required]
         public string Destination { get; set; }
@@ -25,6 +25,6 @@ namespace Data_Access_Layer.Models
         [Required]
         public DateTime ArrivalTime { get; set; }
 
-        public List<Ticket> Tickets { get; set; }
+        public virtual List<Ticket> Tickets { get; set; }
     }
 }

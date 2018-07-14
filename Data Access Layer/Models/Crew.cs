@@ -10,9 +10,9 @@ namespace Data_Access_Layer.Models
         public int Id { get; set; }
 
         [Required]
-        public Pilot Pilot { get; set; }
+        public virtual Pilot Pilot { get; set; }
 
         [Required]
-        public List<Stewardess> Stewardesses { get; set; }
+        public virtual List<Stewardess> Stewardesses { get; set; }
     }
 }

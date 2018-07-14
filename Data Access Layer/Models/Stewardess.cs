@@ -20,6 +20,6 @@ namespace Data_Access_Layer.Models
 
         public DateTime DateOfBirth { get; set; }
 
-        public Crew Crew { get; set; }
+        public virtual Crew Crew { get; set; }
     }
 }

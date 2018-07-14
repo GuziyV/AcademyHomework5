@@ -13,15 +13,15 @@ namespace Data_Access_Layer.Models
         public int Id { get; set; }
 
         [Required]
-        public Flight Flight { get; set; }
+        public virtual Flight Flight { get; set; }
 
         [Required]
-        public DateTime TimeOfDeparture { get; set; }
+        public virtual DateTime TimeOfDeparture { get; set; }
 
         [Required]
-        public Crew Crew { get; set; }
+        public virtual Crew Crew { get; set; }
 
         [Required]
-        public Plane Plane { get; set; }
+        public virtual Plane Plane { get; set; }
     }
 }

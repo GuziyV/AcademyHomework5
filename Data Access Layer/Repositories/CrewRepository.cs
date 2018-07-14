@@ -1,5 +1,7 @@
-﻿using Data_Access_Layer.Interfaces;
+﻿using Data_Access_Layer.Contexts;
+using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,39 +12,36 @@ namespace Data_Access_Layer.Repositories
 {
     class CrewRepository : IRepository<Crew>
     {
-        static private List<Crew> _crews;
+        private  AirportContext _context;
 
-        public CrewRepository()
+        public CrewRepository(AirportContext context)
         {
-            if (_crews == null)
-            {
-                _crews = new List<Crew>();
-            }
+            _context = context;
         }
 
         public void Create(Crew item)
         {
-            _crews.Add(item);
+            _context.Crews.Add(item);
         }
 
         public void Delete(int id)
         {
-            _crews.Remove(_crews.First(c => c.Id == id));
+            _context.Crews.Remove(_context.Crews.Find(id));
         }
 
         public Crew Get(int id)
         {
-            return _crews.First(c => c.Id == id);
+            return _context.Crews.Find(id);
         }
 
         public IEnumerable<Crew> GetAll()
         {
-            return _crews;
+            return _context.Crews;
         }
 
         public void Update(int id, Crew item)
         {
-            _crews[_crews.FindIndex(i => i.Id == id)] = item;
+            _context.Entry(item).State = EntityState.Modified;
         }
     }
     }

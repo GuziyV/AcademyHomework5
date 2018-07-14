@@ -1,5 +1,7 @@
-﻿using Data_Access_Layer.Interfaces;
+﻿using Data_Access_Layer.Contexts;
+using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,39 +12,36 @@ namespace Data_Access_Layer.Repositories
 {
     class PilotRepository : IRepository<Pilot>
     {
-        static private List<Pilot> _pilots;
+        private AirportContext _context;
 
-        public PilotRepository()
+        public PilotRepository(AirportContext context)
         {
-            if (_pilots == null)
-            {
-                _pilots = new List<Pilot>();
-            }
+            _context = context;
         }
 
         public void Create(Pilot item)
         {
-            _pilots.Add(item);
+            _context.Pilots.Add(item);
         }
 
         public void Delete(int id)
         {
-            _pilots.Remove(_pilots.First(p => p.Id == id));
+            _context.Pilots.Remove(_context.Pilots.Find(id));
         }
 
         public Pilot Get(int id)
         {
-            return _pilots.FirstOrDefault(p => p.Id == id);
+            return _context.Pilots.Find(id);
         }
 
         public IEnumerable<Pilot> GetAll()
         {
-            return _pilots;
+            return _context.Pilots;
         }
 
         public void Update(int id, Pilot item)
         {
-            _pilots[_pilots.FindIndex(i => i.Id == id)] = item;
+            _context.Entry(item).State = EntityState.Modified;
         }
     }
 }

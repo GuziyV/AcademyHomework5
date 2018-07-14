@@ -14,7 +14,6 @@ namespace Data_Access_Layer.Models
 
         public double Price { get; set; }
 
-        [Required]
-        public Flight Flight { get; set; }
+        public int FlightNumber { get; set; }
     }
 }

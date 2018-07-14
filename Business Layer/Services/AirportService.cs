@@ -50,21 +50,9 @@ namespace Business_Layer.Services
             (f.DepartureFrom == departureFrom && f.Destination == destination));
         }
 
-
-
-        public IEnumerable<Plane> GetPlanesByModel(string model)
+        public void SaveChanges()
         {
-            return GetAll<Plane>().Where(p => p.PlaneType.Model == model);
-        }
-
-        public IEnumerable<Plane> GetPlanesByNumberOfSeatsMoreThen(int numberOfSeats)
-        {
-            return GetAll<Plane>().Where(p => p.PlaneType.NumberOfSeats > numberOfSeats);
-        }
-
-        public IEnumerable<Plane> GetPlanesLoadCapacityMoreThen(int loadCapacity)
-        {
-            return GetAll<Plane>().Where(p => p.PlaneType.LoadCapacity > loadCapacity);
+            _unitOfWork.SaveChanges();
         }
     }
         
