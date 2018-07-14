@@ -6,10 +6,13 @@ using System.Text;
 
 namespace Data_Access_Layer.Contexts
 {
-    class AirportContext : DbContext
+    public class AirportContext : DbContext
     {
-        public AirportContext()
-        { }
+        public AirportContext(DbContextOptions<AirportContext> options)
+            : base(options)
+        {
+            Database.EnsureCreated();
+        }
 
         DbSet<Flight> Flights { get; set; }
         DbSet<Crew> Crews { get; set; }

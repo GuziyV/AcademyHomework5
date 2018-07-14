@@ -2,6 +2,7 @@
 using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Models;
 using Data_Access_Layer.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,11 @@ namespace Data_Access_Layer
 {
     public class AirportUnitOfWork : IUnitOfWork
     {
-        private AirportContext _airportContext = new AirportContext();
+        private AirportContext _airportContext;
 
-        public AirportUnitOfWork()
+        public AirportUnitOfWork(AirportContext airportContext)
         {
+            _airportContext = airportContext;
             Seed();
         }
 
