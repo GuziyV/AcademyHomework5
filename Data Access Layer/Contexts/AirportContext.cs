@@ -16,8 +16,6 @@ namespace Data_Access_Layer.Contexts
             Database.EnsureCreated();
         }
 
-
-
         DbSet<Flight> Flights { get; set; }
         DbSet<Crew> Crews { get; set; }
         DbSet<Departure> Departures { get; set; }

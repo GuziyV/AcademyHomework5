@@ -173,7 +173,7 @@ namespace Data_Access_Layer
 
         public void Seed()
         {
-            Ticket ticket1 = new Ticket
+            /*Ticket ticket1 = new Ticket
             {
                 Id = 1,
                 RaceNumber = 2,
@@ -518,6 +518,7 @@ namespace Data_Access_Layer
             PlaneRepository.Create(plane2);
             PlaneRepository.Create(plane3);
             PlaneRepository.Create(plane4);
+            */
         }
     }
 }

@@ -50,11 +50,7 @@ namespace Business_Layer.Services
             (f.DepartureFrom == departureFrom && f.Destination == destination));
         }
 
-        public IEnumerable<Ticket> GetTicketsByRoute(string departureFrom, string destination)
-        {
-            return GetAll<Ticket>().Where(f =>
-            (GetById<Flight>(f.RaceNumber).DepartureFrom == departureFrom && GetById<Flight>(f.RaceNumber).Destination == destination));
-        }
+
 
         public IEnumerable<Plane> GetPlanesByModel(string model)
         {
