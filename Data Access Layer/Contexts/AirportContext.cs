@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Data_Access_Layer.Contexts
 {
@@ -11,8 +12,11 @@ namespace Data_Access_Layer.Contexts
         public AirportContext(DbContextOptions<AirportContext> options)
             : base(options)
         {
+            
             Database.EnsureCreated();
         }
+
+
 
         DbSet<Flight> Flights { get; set; }
         DbSet<Crew> Crews { get; set; }
