@@ -31,12 +31,16 @@ namespace Data_Access_Layer.Repositories
 
         public Departure Get(int id)
         {
-            return _context.Departures.Find(id);
+            return _context.Departures.Include(d => d.Crew).ThenInclude(c => c.Pilot).Include(d =>d.Crew).ThenInclude(c => c.Stewardesses)
+                .Include(d => d.Flight).ThenInclude(f => f.Tickets)
+                .Include(d => d.Plane).ThenInclude(p => p.PlaneType).FirstOrDefault(s => s.Id == id);
         }
 
         public IEnumerable<Departure> GetAll()
         {
-            return _context.Departures;
+            return _context.Departures.Include(d => d.Crew).ThenInclude(c => c.Pilot).Include(d => d.Crew).ThenInclude(c => c.Stewardesses)
+                .Include(d => d.Flight).ThenInclude(f => f.Tickets)
+                .Include(d => d.Plane).ThenInclude(p => p.PlaneType);
         }
 
         public void Update(int id, Departure item)

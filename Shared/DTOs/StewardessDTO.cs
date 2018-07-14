@@ -14,6 +14,6 @@ namespace Shared.DTOs
 
         public DateTime DateOfBirth { get; set; }
 
-        public CrewDTO Crew { get; set; }
+        public int CrewId { get; set; }
     }
 }

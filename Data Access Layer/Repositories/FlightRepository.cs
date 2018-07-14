@@ -31,12 +31,12 @@ namespace Data_Access_Layer.Repositories
 
         public Flight Get(int id)
         {
-            return _context.Flights.Find(id);
+            return _context.Flights.Include(f => f.Tickets).FirstOrDefault(f => f.Number == id);
         }
 
         public IEnumerable<Flight> GetAll()
         {
-            return _context.Flights;
+            return _context.Flights.Include(f => f.Tickets);
         }
 
         public void Update(int id, Flight item)

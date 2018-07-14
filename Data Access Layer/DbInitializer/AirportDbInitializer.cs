@@ -12,12 +12,12 @@ namespace Data_Access_Layer.DbInitializer
         static public void Initialize(AirportContext context)
         {
             context.Database.EnsureCreated(); //create db if not exist
-            /*
+            
             if(context.Flights.Any())
             { 
                 return; //already seeded
             }
-            */
+            
             List<Pilot> pilots = new List<Pilot>()
             {
                 new Pilot(){Name = "PName1", Surname = "PSurname1", Experience = 3},
@@ -66,11 +66,6 @@ namespace Data_Access_Layer.DbInitializer
                 }
             };
 
-            stewardesses[0].Crew = crews[1];
-            stewardesses[1].Crew = crews[0];
-            stewardesses[2].Crew = crews[1];
-            stewardesses[3].Crew = crews[0];
-            stewardesses[4].Crew = crews[1];
 
             context.Stewardesses.AddRange(stewardesses);
 

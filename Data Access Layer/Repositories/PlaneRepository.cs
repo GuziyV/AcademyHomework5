@@ -31,12 +31,12 @@ namespace Data_Access_Layer.Repositories
 
         public Plane Get(int id)
         {
-            return _context.Planes.Find(id);
+            return _context.Planes.Include(p => p.PlaneType).FirstOrDefault(f => f.Id == id);
         }
 
         public IEnumerable<Plane> GetAll()
         {
-            return _context.Planes;
+            return _context.Planes.Include(p => p.PlaneType);
         }
 
         public void Update(int id, Plane item)

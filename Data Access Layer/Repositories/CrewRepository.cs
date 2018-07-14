@@ -31,12 +31,12 @@ namespace Data_Access_Layer.Repositories
 
         public Crew Get(int id)
         {
-            return _context.Crews.Find(id);
+            return _context.Crews.Include(c => c.Pilot).Include(c => c.Stewardesses).FirstOrDefault(c => c.Id == id);
         }
 
         public IEnumerable<Crew> GetAll()
         {
-            return _context.Crews;
+            return _context.Crews.Include(c => c.Pilot).Include(c => c.Stewardesses);
         }
 
         public void Update(int id, Crew item)

@@ -31,12 +31,12 @@ namespace Data_Access_Layer.Repositories
 
         public Stewardess Get(int id)
         {
-            return _context.Stewardesses.Find(id);
+            return _context.Stewardesses.FirstOrDefault(s => s.Id == id);
         }
 
         public IEnumerable<Stewardess> GetAll()
         {
-            return _context.Stewardesses.ToList();
+            return _context.Stewardesses;
         }
 
         public void Update(int id, Stewardess item)
