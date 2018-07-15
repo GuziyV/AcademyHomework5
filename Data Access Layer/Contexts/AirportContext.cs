@@ -1,4 +1,5 @@
-﻿using Data_Access_Layer.Models;
+﻿using Data_Access_Layer.DbInitializer;
+using Data_Access_Layer.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,8 @@ namespace Data_Access_Layer.Contexts
         public AirportContext(DbContextOptions<AirportContext> options)
             : base(options)
         {
-            
-            Database.EnsureCreated();
+
+            AirportDbInitializer.Initialize(this); //Seed db
         }
 
         public virtual DbSet<Flight> Flights { get; set; }

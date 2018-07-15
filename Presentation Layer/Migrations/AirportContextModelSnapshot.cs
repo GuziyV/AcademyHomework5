@@ -143,7 +143,7 @@ namespace PresentationLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CrewId");
+                    b.Property<int>("CrewId");
 
                     b.Property<DateTime>("DateOfBirth");
 
@@ -215,9 +215,10 @@ namespace PresentationLayer.Migrations
 
             modelBuilder.Entity("Data_Access_Layer.Models.Stewardess", b =>
                 {
-                    b.HasOne("Data_Access_Layer.Models.Crew", "Crew")
+                    b.HasOne("Data_Access_Layer.Models.Crew")
                         .WithMany("Stewardesses")
-                        .HasForeignKey("CrewId");
+                        .HasForeignKey("CrewId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Data_Access_Layer.Models.Ticket", b =>

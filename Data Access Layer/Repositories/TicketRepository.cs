@@ -10,38 +10,12 @@ using System.Threading.Tasks;
 
 namespace Data_Access_Layer.Repositories
 {
-    class TicketRepository : IRepository<Ticket>
+    class TicketRepository : Repository<Ticket>
     {
-        private AirportContext _context;
 
-        public TicketRepository(AirportContext context)
+        public TicketRepository(AirportContext context) : base(context)
         {
-            _context = context;
         }
 
-        public void Create(Ticket item)
-        {
-            _context.Tickets.Add(item);
-        }
-
-        public void Delete(int id)
-        {
-            _context.Tickets.Remove(_context.Tickets.Find(id));
-        }
-
-        public Ticket Get(int id)
-        {
-            return _context.Tickets.Find(id);
-        }
-
-        public IEnumerable<Ticket> GetAll()
-        {
-            return _context.Tickets;
-        }
-
-        public void Update(int id, Ticket item)
-        {
-            _context.Entry(item).State = EntityState.Modified;
-        }
     }
 }

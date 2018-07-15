@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data_Access_Layer.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -26,5 +27,6 @@ namespace Data_Access_Layer.Models
         public DateTime ArrivalTime { get; set; }
 
         public virtual List<Ticket> Tickets { get; set; }
+
     }
 }

@@ -2,7 +2,7 @@
 
 namespace PresentationLayer.Migrations
 {
-    public partial class changeRelationManyToManyToOneToMant : Migration
+    public partial class databaseFinished : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

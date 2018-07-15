@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PresentationLayer.Migrations
 {
     [DbContext(typeof(AirportContext))]
-    [Migration("20180714085133_AddRelationManyToMany")]
-    partial class AddRelationManyToMany
+    [Migration("20180715083450_databaseFinished")]
+    partial class databaseFinished
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,7 @@ namespace PresentationLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("PilotId");
+                    b.Property<int>("PilotId");
 
                     b.HasKey("Id");
 
@@ -42,15 +42,21 @@ namespace PresentationLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CrewId");
+                    b.Property<int>("CrewId");
 
-                    b.Property<int>("RaceNumber");
+                    b.Property<int>("FlightNumber");
+
+                    b.Property<int>("PlaneId");
 
                     b.Property<DateTime>("TimeOfDeparture");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CrewId");
+
+                    b.HasIndex("FlightNumber");
+
+                    b.HasIndex("PlaneId");
 
                     b.ToTable("Departures");
                 });
@@ -63,9 +69,11 @@ namespace PresentationLayer.Migrations
 
                     b.Property<DateTime>("ArrivalTime");
 
-                    b.Property<string>("DepartureFrom");
+                    b.Property<string>("DepartureFrom")
+                        .IsRequired();
 
-                    b.Property<string>("Destination");
+                    b.Property<string>("Destination")
+                        .IsRequired();
 
                     b.Property<DateTime>("TimeOfDeparture");
 
@@ -82,9 +90,13 @@ namespace PresentationLayer.Migrations
 
                     b.Property<int>("Experience");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20);
 
-                    b.Property<string>("Surname");
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.HasKey("Id");
 
@@ -97,7 +109,7 @@ namespace PresentationLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("PlaneTypeId");
+                    b.Property<int>("PlaneTypeId");
 
                     b.Property<DateTime>("ReleaseDate");
 
@@ -116,7 +128,9 @@ namespace PresentationLayer.Migrations
 
                     b.Property<int>("LoadCapacity");
 
-                    b.Property<string>("Model");
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<int>("NumberOfSeats");
 
@@ -131,13 +145,17 @@ namespace PresentationLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CrewId");
+                    b.Property<int>("CrewId");
 
                     b.Property<DateTime>("DateOfBirth");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
-                    b.Property<string>("Surname");
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -152,11 +170,9 @@ namespace PresentationLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("FlightNumber");
+                    b.Property<int>("FlightNumber");
 
                     b.Property<double>("Price");
-
-                    b.Property<int>("RaceNumber");
 
                     b.HasKey("Id");
 
@@ -169,35 +185,50 @@ namespace PresentationLayer.Migrations
                 {
                     b.HasOne("Data_Access_Layer.Models.Pilot", "Pilot")
                         .WithMany()
-                        .HasForeignKey("PilotId");
+                        .HasForeignKey("PilotId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Data_Access_Layer.Models.Departure", b =>
                 {
                     b.HasOne("Data_Access_Layer.Models.Crew", "Crew")
                         .WithMany()
-                        .HasForeignKey("CrewId");
+                        .HasForeignKey("CrewId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Data_Access_Layer.Models.Flight", "Flight")
+                        .WithMany()
+                        .HasForeignKey("FlightNumber")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Data_Access_Layer.Models.Plane", "Plane")
+                        .WithMany()
+                        .HasForeignKey("PlaneId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Data_Access_Layer.Models.Plane", b =>
                 {
                     b.HasOne("Data_Access_Layer.Models.PlaneType", "PlaneType")
                         .WithMany()
-                        .HasForeignKey("PlaneTypeId");
+                        .HasForeignKey("PlaneTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Data_Access_Layer.Models.Stewardess", b =>
                 {
                     b.HasOne("Data_Access_Layer.Models.Crew")
                         .WithMany("Stewardesses")
-                        .HasForeignKey("CrewId");
+                        .HasForeignKey("CrewId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Data_Access_Layer.Models.Ticket", b =>
                 {
                     b.HasOne("Data_Access_Layer.Models.Flight")
                         .WithMany("Tickets")
-                        .HasForeignKey("FlightNumber");
+                        .HasForeignKey("FlightNumber")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

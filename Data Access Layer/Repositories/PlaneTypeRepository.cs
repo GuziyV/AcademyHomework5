@@ -10,38 +10,13 @@ using System.Threading.Tasks;
 
 namespace Data_Access_Layer.Repositories
 {
-    class PlaneTypeRepository : IRepository<PlaneType>
+    class PlaneTypeRepository : Repository<PlaneType>
     {
-        private AirportContext _context;
 
-        public PlaneTypeRepository(AirportContext context)
+        public PlaneTypeRepository(AirportContext context) : base(context)
         {
-            _context = context;
         }
 
-        public void Create(PlaneType item)
-        {
-            _context.PlaneTypes.Add(item);
-        }
-
-        public void Delete(int id)
-        {
-            _context.PlaneTypes.Remove(_context.PlaneTypes.Find(id));
-        }
-
-        public PlaneType Get(int id)
-        {
-            return _context.PlaneTypes.Find(id);
-        }
-
-        public IEnumerable<PlaneType> GetAll()
-        {
-            return _context.PlaneTypes;
-        }
-
-        public void Update(int id, PlaneType item)
-        {
-            _context.Entry(item).State = EntityState.Modified;
-        }
+      
     }
 }

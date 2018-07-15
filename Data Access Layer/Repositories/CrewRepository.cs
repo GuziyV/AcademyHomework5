@@ -10,38 +10,23 @@ using System.Threading.Tasks;
 
 namespace Data_Access_Layer.Repositories
 {
-    class CrewRepository : IRepository<Crew>
+    class CrewRepository : Repository<Crew>
     {
-        private  AirportContext _context;
-
-        public CrewRepository(AirportContext context)
+        public CrewRepository(AirportContext context) : base(context)
         {
-            _context = context;
+            
         }
 
-        public void Create(Crew item)
-        {
-            _context.Crews.Add(item);
-        }
 
-        public void Delete(int id)
-        {
-            _context.Crews.Remove(_context.Crews.Find(id));
-        }
 
-        public Crew Get(int id)
-        {
-            return _context.Crews.Include(c => c.Pilot).Include(c => c.Stewardesses).FirstOrDefault(c => c.Id == id);
-        }
+         public override Crew Get(int id)
+         {
+            return dbSet.Include(c => c.Pilot).Include(c => c.Stewardesses).FirstOrDefault(c => c.Id == id);
+         }
 
-        public IEnumerable<Crew> GetAll()
+        public override IEnumerable<Crew> GetAll()
         {
-            return _context.Crews.Include(c => c.Pilot).Include(c => c.Stewardesses);
-        }
-
-        public void Update(int id, Crew item)
-        {
-            _context.Entry(item).State = EntityState.Modified;
+            return dbSet.Include(c => c.Pilot).Include(c => c.Stewardesses);
         }
     }
-    }
+}

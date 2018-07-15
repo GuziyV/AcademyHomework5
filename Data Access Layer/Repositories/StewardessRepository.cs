@@ -10,38 +10,13 @@ using System.Threading.Tasks;
 
 namespace Data_Access_Layer.Repositories
 {
-    class StewardessRepository : IRepository<Stewardess>
+    class StewardessRepository : Repository<Stewardess>
     {
-        private AirportContext _context;
 
-        public StewardessRepository(AirportContext context)
+        public StewardessRepository(AirportContext context) : base(context)
         {
-            _context = context;
         }
 
-        public void Create(Stewardess item)
-        {
-            _context.Stewardesses.Add(item);
-        }
-
-        public void Delete(int id)
-        {
-            _context.Stewardesses.Remove(_context.Stewardesses.Find(id));
-        }
-
-        public Stewardess Get(int id)
-        {
-            return _context.Stewardesses.FirstOrDefault(s => s.Id == id);
-        }
-
-        public IEnumerable<Stewardess> GetAll()
-        {
-            return _context.Stewardesses;
-        }
-
-        public void Update(int id, Stewardess item)
-        {
-            _context.Entry(item).State = EntityState.Modified;
-        }
+       
     }
 }
