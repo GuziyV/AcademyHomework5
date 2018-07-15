@@ -19,12 +19,12 @@ namespace Data_Access_Layer.Repositories
 
        
 
-        public Plane Get(int id)
+        public override Plane Get(int id)
         {
             return dbSet.Include(p => p.PlaneType).FirstOrDefault(f => f.Id == id);
         }
 
-        public IEnumerable<Plane> GetAll()
+        public override IEnumerable<Plane> GetAll()
         {
             return dbSet.Include(p => p.PlaneType);
         }
