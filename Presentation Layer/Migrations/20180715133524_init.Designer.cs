@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PresentationLayer.Migrations
 {
     [DbContext(typeof(AirportContext))]
-    [Migration("20180715083450_databaseFinished")]
-    partial class databaseFinished
+    [Migration("20180715133524_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

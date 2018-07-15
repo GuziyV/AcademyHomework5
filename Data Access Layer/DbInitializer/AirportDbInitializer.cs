@@ -1,5 +1,6 @@
 ﻿using Data_Access_Layer.Contexts;
 using Data_Access_Layer.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Data_Access_Layer.DbInitializer
     {
         static public void Initialize(AirportContext context)
         {
-            context.Database.EnsureCreated(); //create db if not exist
+            context.Database.Migrate(); 
             
             if(context.Flights.Any())
             { 

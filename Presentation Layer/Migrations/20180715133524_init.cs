@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PresentationLayer.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,9 +14,9 @@ namespace PresentationLayer.Migrations
                 {
                     Number = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    DepartureFrom = table.Column<string>(nullable: true),
+                    DepartureFrom = table.Column<string>(nullable: false),
                     TimeOfDeparture = table.Column<DateTime>(nullable: false),
-                    Destination = table.Column<string>(nullable: true),
+                    Destination = table.Column<string>(nullable: false),
                     ArrivalTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -30,8 +30,8 @@ namespace PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 20, nullable: false),
+                    Surname = table.Column<string>(maxLength: 25, nullable: false),
                     Experience = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -45,7 +45,7 @@ namespace PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Model = table.Column<string>(nullable: true),
+                    Model = table.Column<string>(maxLength: 50, nullable: false),
                     NumberOfSeats = table.Column<int>(nullable: false),
                     LoadCapacity = table.Column<int>(nullable: false)
                 },
@@ -61,8 +61,7 @@ namespace PresentationLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Price = table.Column<double>(nullable: false),
-                    RaceNumber = table.Column<int>(nullable: false),
-                    FlightNumber = table.Column<int>(nullable: true)
+                    FlightNumber = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,7 +71,7 @@ namespace PresentationLayer.Migrations
                         column: x => x.FlightNumber,
                         principalTable: "Flights",
                         principalColumn: "Number",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,7 +80,7 @@ namespace PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    PilotId = table.Column<int>(nullable: true)
+                    PilotId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -91,7 +90,7 @@ namespace PresentationLayer.Migrations
                         column: x => x.PilotId,
                         principalTable: "Pilots",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -100,7 +99,7 @@ namespace PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    PlaneTypeId = table.Column<int>(nullable: true),
+                    PlaneTypeId = table.Column<int>(nullable: false),
                     ReleaseDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -111,28 +110,7 @@ namespace PresentationLayer.Migrations
                         column: x => x.PlaneTypeId,
                         principalTable: "PlaneTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Departures",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    RaceNumber = table.Column<int>(nullable: false),
-                    TimeOfDeparture = table.Column<DateTime>(nullable: false),
-                    CrewId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Departures", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Departures_Crews_CrewId",
-                        column: x => x.CrewId,
-                        principalTable: "Crews",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -141,10 +119,10 @@ namespace PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Surname = table.Column<string>(maxLength: 50, nullable: false),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
-                    CrewId = table.Column<int>(nullable: true)
+                    CrewId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -154,7 +132,41 @@ namespace PresentationLayer.Migrations
                         column: x => x.CrewId,
                         principalTable: "Crews",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Departures",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FlightNumber = table.Column<int>(nullable: false),
+                    TimeOfDeparture = table.Column<DateTime>(nullable: false),
+                    CrewId = table.Column<int>(nullable: false),
+                    PlaneId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departures", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Departures_Crews_CrewId",
+                        column: x => x.CrewId,
+                        principalTable: "Crews",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Departures_Flights_FlightNumber",
+                        column: x => x.FlightNumber,
+                        principalTable: "Flights",
+                        principalColumn: "Number",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Departures_Planes_PlaneId",
+                        column: x => x.PlaneId,
+                        principalTable: "Planes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -166,6 +178,16 @@ namespace PresentationLayer.Migrations
                 name: "IX_Departures_CrewId",
                 table: "Departures",
                 column: "CrewId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Departures_FlightNumber",
+                table: "Departures",
+                column: "FlightNumber");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Departures_PlaneId",
+                table: "Departures",
+                column: "PlaneId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Planes_PlaneTypeId",
@@ -189,22 +211,22 @@ namespace PresentationLayer.Migrations
                 name: "Departures");
 
             migrationBuilder.DropTable(
-                name: "Planes");
-
-            migrationBuilder.DropTable(
                 name: "Stewardesses");
 
             migrationBuilder.DropTable(
                 name: "Tickets");
 
             migrationBuilder.DropTable(
-                name: "PlaneTypes");
+                name: "Planes");
 
             migrationBuilder.DropTable(
                 name: "Crews");
 
             migrationBuilder.DropTable(
                 name: "Flights");
+
+            migrationBuilder.DropTable(
+                name: "PlaneTypes");
 
             migrationBuilder.DropTable(
                 name: "Pilots");
